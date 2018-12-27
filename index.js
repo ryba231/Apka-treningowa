@@ -2,21 +2,15 @@ import {Navigation} from "react-native-navigation";
 import {Dimensions} from 'react-native'
 import App from './App';
 
-Navigation.registerComponent('App',()=>App);
-/*
-Navigation.events().registerAppLaunchedListener(() => {
-    Navigation.setRoot({
-        root: {
-            component: {
-                name: "App"
-            }
-        }
-    });
-});*/
+Navigation.registerComponent('App', () => App);
 
-const { width } = Dimensions.get('window');
+
+const {width} = Dimensions.get('window');
 Navigation.events().registerAppLaunchedListener(() => {
     Navigation.setDefaultOptions({
+        layout: {
+            orientation: ['portrait']
+        },
         topBar: {
             elevation: 0,
             visible: false,
@@ -54,10 +48,10 @@ Navigation.events().registerAppLaunchedListener(() => {
                         ]
                     }
                 },
-                right:{
-                    component:{
-                        id:'drawerId',
-                        name:'App',
+                right: {
+                    component: {
+                        id: 'drawerId',
+                        name: 'App',
                         fixedWidth: width
                     }
                 }
