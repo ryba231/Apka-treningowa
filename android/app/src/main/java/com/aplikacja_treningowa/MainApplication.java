@@ -2,6 +2,7 @@ package com.aplikacja_treningowa;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -36,6 +37,8 @@ public class MainApplication extends NavigationApplication {
         // Add additional packages you require here
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
+                new MainReactPackage(),
+                new LinearGradientPackage()
                 // eg. new VectorIconsPackage()
         );
     }

@@ -8,6 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -20,11 +21,15 @@ type Props = {};
 export default class App extends Component<Props> {
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>Welcome to React Native!</Text>
-                <Text style={styles.instructions}>To get started, edit App.js</Text>
-                <Text style={styles.instructions}>{instructions}</Text>
-            </View>
+
+                <LinearGradient colors={['#414867', '#2b324f',]} style={styles.linearGradient}>
+                    <View style={styles.container}>
+                        <Text style={styles.welcome}>Welcome to React Native!</Text>
+                        <Text style={styles.instructions}>To get started, edit App.js</Text>
+                        <Text style={styles.instructions}>{instructions}</Text>
+                    </View>
+                </LinearGradient>
+
         );
     }
 }
@@ -34,7 +39,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#414867',
     },
     welcome: {
         fontSize: 20,
@@ -47,5 +51,18 @@ const styles = StyleSheet.create({
         color: '#8186A9',
         marginBottom: 5,
 
+    },
+    linearGradient: {
+        flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+    },
+    buttonText: {
+        fontSize: 18,
+        fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        margin: 10,
+        color: '#ffffff',
+        backgroundColor: 'transparent',
     },
 });
