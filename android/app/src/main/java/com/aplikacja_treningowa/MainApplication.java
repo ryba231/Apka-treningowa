@@ -2,6 +2,7 @@ package com.aplikacja_treningowa;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -10,11 +11,12 @@ import com.facebook.soloader.SoLoader;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
+import org.pgsqlite.SQLitePluginPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends NavigationApplication {
+public class MainApplication extends NavigationApplication implements ReactApplication {
 
     @Override
     public boolean isDebug() {
@@ -38,7 +40,9 @@ public class MainApplication extends NavigationApplication {
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
-                new LinearGradientPackage()
+                new VectorIconsPackage(),
+                new LinearGradientPackage(),
+                new SQLitePluginPackage()   // register SQLite Plugin here
                 // eg. new VectorIconsPackage()
         );
     }

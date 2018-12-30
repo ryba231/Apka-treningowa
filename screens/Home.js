@@ -9,7 +9,9 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import SQLite from 'react-native-sqlite-storage';
 
+var db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '1'});
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -20,6 +22,26 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class Home extends Component<Props> {
+    constructor(){
+        super();
+        this.state = {
+            dane:[],
+        }
+        db.transaction((tx)=>{
+            tx.executeSql('SELECT * FROM test',[],(tx,results)=>{
+                console.log("Query completed");
+
+                var tab=[];
+                var len = results.rows.length;
+                for (let i =0; i<len;i++) {
+                    tab[i] = results.rows.item(i);
+                    console.log(results.rows.item(i));
+                }
+                this.setState({dane:tab});
+
+            })
+        })
+    }
     render() {
         return (
 
