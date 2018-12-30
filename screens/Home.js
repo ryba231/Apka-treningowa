@@ -10,6 +10,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SQLite from 'react-native-sqlite-storage';
+import {Header} from "react-native-elements";
 
 var db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '1'});
 
@@ -47,6 +48,21 @@ export default class Home extends Component<Props> {
 
             <LinearGradient colors={['#414867', '#2b324f',]} style={styles.linearGradient}>
                 <View style={styles.container}>
+                    <Header
+                        leftComponent={{
+                            icon: 'menu',
+                            color: '#D4D4D4',
+                        }}
+                        centerComponent={{
+                            text: 'Home Page',
+                            style: { color: '#FFFFFF',fontSize:30}
+                        }}
+                        rightComponent={{
+                            icon:'menu',
+                            color: '#D4D4D4',
+                        }}
+                        backgroundColor='#414867'
+                    />
                     <Text style={styles.welcome}>Welcome to React Native!</Text>
                     <Text style={styles.instructions}>To get started, edit App.js</Text>
                     <Text style={styles.instructions}>{instructions}</Text>
