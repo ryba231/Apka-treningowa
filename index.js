@@ -1,8 +1,10 @@
 import {Navigation} from "react-native-navigation";
 import {Dimensions} from 'react-native'
 import App from './App';
+import Home from './screens/Home';
 
 Navigation.registerComponent('App', () => App);
+Navigation.registerComponent('Home', () => Home);
 
 
 const {width} = Dimensions.get('window');
@@ -42,7 +44,7 @@ Navigation.events().registerAppLaunchedListener(() => {
                         children: [
                             {
                                 component: {
-                                    name: 'App',
+                                    name: 'Home',
                                 }
                             },
                         ]
