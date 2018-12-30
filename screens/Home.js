@@ -7,10 +7,11 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, Image, Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SQLite from 'react-native-sqlite-storage';
 import {Header} from "react-native-elements";
+import {Navigation} from "react-native-navigation";
 
 var db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '1'});
 
@@ -21,28 +22,50 @@ const instructions = Platform.select({
         'Shake or press menu button for dev menu',
 });
 
+const {width} = Dimensions.get('window');
+
 type Props = {};
 export default class Home extends Component<Props> {
-    constructor(){
+    constructor() {
         super();
         this.state = {
-            dane:[],
+            dane: [],
         }
-        db.transaction((tx)=>{
-            tx.executeSql('SELECT * FROM test',[],(tx,results)=>{
+        db.transaction((tx) => {
+            tx.executeSql('SELECT * FROM test', [], (tx, results) => {
                 console.log("Query completed");
 
-                var tab=[];
+                var tab = [];
                 var len = results.rows.length;
-                for (let i =0; i<len;i++) {
+                for (let i = 0; i < len; i++) {
                     tab[i] = results.rows.item(i);
                     console.log(results.rows.item(i));
                 }
-                this.setState({dane:tab});
+                this.setState({dane: tab});
 
             })
         })
     }
+
+    openMenuDrawer = () => {
+        Navigation.mergeOptions('menuDrawer', {
+            sideMenu: {
+                left: {
+                    visible: true
+                }
+            }
+        });
+    };
+    openNotifDrawer = () => {
+        Navigation.mergeOptions('notifMenu', {
+            sideMenu: {
+                right: {
+                    visible: true
+                }
+            }
+        });
+    };
+
     render() {
         return (
 
@@ -51,21 +74,27 @@ export default class Home extends Component<Props> {
                     <Header
                         leftComponent={{
                             icon: 'menu',
-                            color: '#D4D4D4',
+                            color: '#8186A9',
+                            onPress: () => this.openMenuDrawer(),
                         }}
                         centerComponent={{
                             text: 'Home Page',
-                            style: { color: '#FFFFFF',fontSize:30}
+                            style: {color: '#8186A9', fontSize: 30}
                         }}
                         rightComponent={{
-                            icon:'menu',
-                            color: '#D4D4D4',
+                            icon: 'notifications',
+                            color: '#8186A9',
+                            onPress: () => this.openNotifDrawer(),
                         }}
                         backgroundColor='#414867'
                     />
-                    <Text style={styles.welcome}>Welcome to React Native!</Text>
-                    <Text style={styles.instructions}>To get started, edit App.js</Text>
-                    <Text style={styles.instructions}>{instructions}</Text>
+                    <View style={{alignItems: 'center'}}>
+                        <Image style={{width: width, height: 160,}}
+                               source={require('./images/deska.png')}/>
+                        <Text style={styles.welcome}>Welcome to React Native!</Text>
+                        <Text style={styles.instructions}>To get started, edit App.js</Text>
+                        <Text style={styles.instructions}>{instructions}</Text>
+                    </View>
                 </View>
             </LinearGradient>
 
@@ -91,8 +120,6 @@ const styles = StyleSheet.create({
     },
     linearGradient: {
         flex: 1,
-        paddingLeft: 15,
-        paddingRight: 15,
     },
     buttonText: {
         fontSize: 18,

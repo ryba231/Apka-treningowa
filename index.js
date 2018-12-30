@@ -33,7 +33,7 @@ Navigation.events().registerAppLaunchedListener(() => {
             sideMenu: {
                 left: {
                     component: {
-                        id: 'drawerId',
+                        id: 'menuDrawer',
                         name: 'App',
                         fixedWidth: width
                     }
@@ -52,7 +52,7 @@ Navigation.events().registerAppLaunchedListener(() => {
                 },
                 right: {
                     component: {
-                        id: 'drawerId',
+                        id: 'notifMenu',
                         name: 'App',
                         fixedWidth: width
                     }
