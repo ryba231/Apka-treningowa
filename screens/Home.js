@@ -90,7 +90,7 @@ export default class Home extends Component<Props> {
                     />
                     <View style={{alignItems: 'center'}}>
                         <Image style={{width: width, height: 160,}}
-                               source={require('./images/deska.png')}/>
+                               source={require('./images/B01.png')}/>
                         <Text style={styles.welcome}>Welcome to React Native!</Text>
                         <Text style={styles.instructions}>To get started, edit App.js</Text>
                         <Text style={styles.instructions}>{instructions}</Text>
