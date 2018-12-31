@@ -2,9 +2,13 @@ import {Navigation} from "react-native-navigation";
 import {Dimensions} from 'react-native'
 import App from './App';
 import Home from './screens/Home';
+import Drawer from './screens/Drawer';
+import selectPages from './screens/selectPages';
 
 Navigation.registerComponent('App', () => App);
 Navigation.registerComponent('Home', () => Home);
+Navigation.registerComponent('Drawer', () => Drawer);
+Navigation.registerComponent('selectPages', () => selectPages);
 
 
 const {width} = Dimensions.get('window');
@@ -34,7 +38,7 @@ Navigation.events().registerAppLaunchedListener(() => {
                 left: {
                     component: {
                         id: 'menuDrawer',
-                        name: 'App',
+                        name: 'Drawer',
                         fixedWidth: width
                     }
                 },

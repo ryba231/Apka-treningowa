@@ -14,73 +14,28 @@ import {Header} from "react-native-elements";
 import {Navigation} from "react-native-navigation";
 
 let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '1'});
-//const url = 'http://192.168.43.72:3000/';
-const url = 'http://192.168.0.2:3000/';
 
 const {width} = Dimensions.get('window');
 
-export default class Home extends Component {
+export default class selectPages extends Component {
     constructor() {
-        super()
+        super();
         this.state = {
-            wynik: [],
-            eData: [],
-            descriptions: [],
-        }
+            description:[],
+        };
+        db.transaction((tx)=>{
+            tx.executeSql('SELECT * FROM exercisesDetails',[],(tx,results)=>{
+                console.log("Query completed");
+                var tab=[];
+                var len = results.rows.length;
+                for (let i =0; i<len;i++) {
+                    tab[i] = results.rows.item(i);
+                }
+                this.setState({description:tab});
 
-
-    }
-
-    async componentDidMount() {
-        this.downloadData();
-
-    }
-
-    downloadData = () => {
-        fetch(url+'exercises')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({wynik: data});
-                console.log(data);
-                this.addToDatabase(data);
-                this.downloadExercises();
             })
-            .catch(error => console.log(error));
-
-    };
-
-    addToDatabase = (data) => {
-        db.transaction((tx) => {
-            tx.executeSql('DELETE FROM exercisesDetails');
-            tx.executeSql('DELETE FROM exercises');
-            data.map((item, k) => (
-                console.log(data[k].name),
-                tx.executeSql(`INSERT INTO exercisesDetails (id,name,description,level,numberOfExercises) VALUES
-                  ('${data[k].id}','${data[k].name}','${data[k].description}','${data[k].level}',${data[k].numberOfExercises});`)
-            ));
-        });
-    };
-
-    downloadExercises = () => {
-        this.state.wynik.map((item, k) => (
-            console.log(item.id),
-                fetch(url+item.id)
-                    .then(response => response.json())
-                    .then(data => {
-                        this.setState({eData: data});
-                        console.log(data);
-                        db.transaction((tx) => {
-                            tx.executeSql(`INSERT INTO exercises (id,name,description,level,exercises) VALUES
-                             ('${data.id}','${data.name}','${data.description}','${data.level}','${JSON.stringify(data.exercises)}');`)
-                        })
-                    })
-                    .catch(error => console.log(error))
-        ))
-    };
-
-
-
-
+        })
+    }
     openMenuDrawer = () => {
         Navigation.mergeOptions('menuDrawer', {
             sideMenu: {
@@ -113,7 +68,7 @@ export default class Home extends Component {
                             onPress: () => this.openMenuDrawer(),
                         }}
                         centerComponent={{
-                            text: 'Home Page',
+                            text: 'Wybór',
                             style: {color: '#8186A9', fontSize: 30}
                         }}
                         rightComponent={{
@@ -125,7 +80,7 @@ export default class Home extends Component {
                     />
                         <ScrollView>
                             {
-                                this.state.wynik.map((item, k) => (
+                                this.state.description.map((item, k) => (
                                     <TouchableOpacity key={k} style={styles.title}>
                                         <View style={{margin: 3}}>
                                             <Text>{item.id}</Text>
@@ -138,8 +93,7 @@ export default class Home extends Component {
                                 ))
                             }
                         </ScrollView>
-
-                </View>
+                    </View>
             </LinearGradient>
 
         );
@@ -148,6 +102,10 @@ export default class Home extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+    },
+
+    linearGradient: {
         flex: 1,
     },
     title: {
@@ -159,10 +117,4 @@ const styles = StyleSheet.create({
         width: width - 20,
         borderColor: '#e5e5e5'
     },
-    linearGradient: {
-        flex: 1,
-    },
-
-
-
 });
