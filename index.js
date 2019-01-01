@@ -3,12 +3,14 @@ import {Dimensions} from 'react-native'
 import App from './App';
 import Home from './screens/Home';
 import Drawer from './screens/Drawer';
-import selectPages from './screens/selectPages';
+import SelectPages from './screens/SelectPages';
+import Exercises from './screens/Exercises';
 
 Navigation.registerComponent('App', () => App);
 Navigation.registerComponent('Home', () => Home);
 Navigation.registerComponent('Drawer', () => Drawer);
-Navigation.registerComponent('selectPages', () => selectPages);
+Navigation.registerComponent('SelectPages', () => SelectPages);
+Navigation.registerComponent('Exercises', () => Exercises);
 
 
 const {width} = Dimensions.get('window');

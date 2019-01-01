@@ -13,7 +13,7 @@ import SQLite from 'react-native-sqlite-storage';
 import {Header} from "react-native-elements";
 import {Navigation} from "react-native-navigation";
 
-let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '1'});
+let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '~www/Trening.db'});
 //const url = 'http://192.168.43.72:3000/';
 const url = 'http://192.168.0.2:3000/';
 
@@ -41,7 +41,6 @@ export default class Home extends Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({wynik: data});
-                console.log(data);
                 this.addToDatabase(data);
                 this.downloadExercises();
             })
@@ -52,9 +51,9 @@ export default class Home extends Component {
     addToDatabase = (data) => {
         db.transaction((tx) => {
             tx.executeSql('DELETE FROM exercisesDetails');
-            tx.executeSql('DELETE FROM exercises');
+            tx.executeSql('DELETE FROM cwiczenia');
+            console.log(data)
             data.map((item, k) => (
-                console.log(data[k].name),
                 tx.executeSql(`INSERT INTO exercisesDetails (id,name,description,level,numberOfExercises) VALUES
                   ('${data[k].id}','${data[k].name}','${data[k].description}','${data[k].level}',${data[k].numberOfExercises});`)
             ));
@@ -63,15 +62,15 @@ export default class Home extends Component {
 
     downloadExercises = () => {
         this.state.wynik.map((item, k) => (
-            console.log(item.id),
                 fetch(url+item.id)
                     .then(response => response.json())
-                    .then(data => {
-                        this.setState({eData: data});
-                        console.log(data);
+                    .then(dane => {
+                        this.setState({eData: dane});
+                        console.log(dane)
                         db.transaction((tx) => {
-                            tx.executeSql(`INSERT INTO exercises (id,name,description,level,exercises) VALUES
-                             ('${data.id}','${data.name}','${data.description}','${data.level}','${JSON.stringify(data.exercises)}');`)
+                            tx.executeSql(`INSERT INTO cwiczenia (id,name,description,level,exe) VALUES
+                             ('${dane.id}','${dane.name}','${dane.description}','${dane.level}','${JSON.stringify(dane.exercises)}');`)
+                            console.log('Query complete')
                         })
                     })
                     .catch(error => console.log(error))
@@ -137,6 +136,7 @@ export default class Home extends Component {
                                     </TouchableOpacity>
                                 ))
                             }
+
                         </ScrollView>
 
                 </View>

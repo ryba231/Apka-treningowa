@@ -44,7 +44,9 @@ export default class Drawer extends Component {
                         <TouchableOpacity style={styles.buttons} onPress={() => this.goToScreen
                         ('Home')}><Text style={styles.textColor}>Home Page</Text></TouchableOpacity>
                         <TouchableOpacity style={styles.buttons} onPress={() => this.goToScreen
-                        ('selectPages')}><Text style={styles.textColor}>Wybór</Text></TouchableOpacity>
+                        ('SelectPages')}><Text style={styles.textColor}>Wybór</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.buttons} onPress={() => this.goToScreen
+                        ('Exercises')}><Text style={styles.textColor}>Ćwiczenia</Text></TouchableOpacity>
 
                     </ScrollView>
                 </View>
