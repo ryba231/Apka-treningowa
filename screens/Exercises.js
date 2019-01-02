@@ -47,7 +47,7 @@ export default class Exercises extends Component {
         db.transaction((tx) => {
             tx.executeSql(`SELECT *
                            FROM cwiczenia
-                           WHERE id = ?`, [id], (tx, results) => {
+                           WHERE id = ?`, [this.props.exeId], (tx, results) => {
                 this.setState({exercises: results.rows.item(0)});
                 this.setState({exercisesTasks: JSON.parse(results.rows.item(0).exe)});
                 this.exLength = JSON.parse(results.rows.item(0).exe).length;
@@ -63,7 +63,11 @@ export default class Exercises extends Component {
         if (this.numberEx < this.exLength - 1) {
             this.numberEx++
         } else {
-            alert("ELo ELo")
+            Navigation.push('MAIN_STACK', {
+                component: {
+                    name: 'SelectPages',
+                }
+            })
         }
         this.setState({refreshing: false});
     }
@@ -98,7 +102,11 @@ export default class Exercises extends Component {
     };
 
     render() {
+        let count = this.state.exercisesTasks[this.numberEx].duration * 60000;
         return (
+           /* setTimeout(()=>{
+               this.next()
+            },count),*/
             <LinearGradient colors={['#414867', '#2b324f',]} style={styles.linearGradient}>
                 <View style={styles.container}>
                     <Header
@@ -125,6 +133,7 @@ export default class Exercises extends Component {
                         <Text>{this.state.exercisesTasks[this.numberEx].description}</Text>
                         <Text>{this.state.exercisesTasks[this.numberEx].duration}</Text>
                         <Text>{this.state.exercisesTasks[this.numberEx].nameImages}</Text>
+                        <Text>{count}</Text>
                         <TouchableOpacity style={styles.buttons} onPress={() => this.next()}>
                             <Text>Next</Text>
                         </TouchableOpacity>

@@ -36,6 +36,17 @@ export default class selectPages extends Component {
             })
         })
     }
+    goToScreen = (screenName,id) => {
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: screenName,
+                passProps: {
+                    exeId: id,
+                },
+            }
+        })
+    };
+
     openMenuDrawer = () => {
         Navigation.mergeOptions('menuDrawer', {
             sideMenu: {
@@ -55,6 +66,7 @@ export default class selectPages extends Component {
             }
         });
     };
+
 
     render() {
         return (
@@ -81,7 +93,7 @@ export default class selectPages extends Component {
                         <ScrollView>
                             {
                                 this.state.description.map((item, k) => (
-                                    <TouchableOpacity key={k} style={styles.title}>
+                                    <TouchableOpacity key={k} style={styles.title} onPress={()=> this.goToScreen('Exercises',item.id)}>
                                         <View style={{margin: 3}}>
                                             <Text>{item.id}</Text>
                                             <Text>{item.name}</Text>
