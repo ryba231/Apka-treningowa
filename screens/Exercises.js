@@ -25,6 +25,7 @@ export default class Exercises extends Component {
         this.numberEx = 0;
         this.exLength = 0;
         this.state = {
+            isStart: true,
             refreshing: false,
             exercises: [],
             exercisesTasks: [{
@@ -81,6 +82,19 @@ export default class Exercises extends Component {
         this.setState({refreshing: false});
     }
 
+    start() {
+        let count = this.state.exercisesTasks[this.numberEx].duration * 60000;
+        if (this.state.isStart) {
+            setTimeout(() => {
+                this.next()
+            }, 5000);
+        }
+        this.setState({
+            isStart: !this.state.isStart
+        });
+    }
+
+
     openMenuDrawer = () => {
         Navigation.mergeOptions('menuDrawer', {
             sideMenu: {
@@ -104,9 +118,6 @@ export default class Exercises extends Component {
     render() {
         let count = this.state.exercisesTasks[this.numberEx].duration * 60000;
         return (
-           /* setTimeout(()=>{
-               this.next()
-            },count),*/
             <LinearGradient colors={['#414867', '#2b324f',]} style={styles.linearGradient}>
                 <View style={styles.container}>
                     <Header
@@ -134,6 +145,13 @@ export default class Exercises extends Component {
                         <Text>{this.state.exercisesTasks[this.numberEx].duration}</Text>
                         <Text>{this.state.exercisesTasks[this.numberEx].nameImages}</Text>
                         <Text>{count}</Text>
+
+                        <TouchableOpacity style={styles.buttons} onPress={() => this.start()}>
+                            {
+                                this.state.isStart ? <Text>Start</Text> : <Text>Stop</Text>
+                            }
+                        </TouchableOpacity>
+
                         <TouchableOpacity style={styles.buttons} onPress={() => this.next()}>
                             <Text>Next</Text>
                         </TouchableOpacity>

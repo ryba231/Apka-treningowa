@@ -17,6 +17,9 @@ let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '~www/Tren
 //const url = 'http://192.168.43.72:3000/';
 const url = 'http://192.168.0.2:3000/';
 
+const menu = [{"id":"SelectPages","name":"Ćwiczenia"},{"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},
+    {"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},];
+
 const {width} = Dimensions.get('window');
 
 export default class Home extends Component {
@@ -24,8 +27,6 @@ export default class Home extends Component {
         super()
         this.state = {
             wynik: [],
-            eData: [],
-            descriptions: [],
         }
 
 
@@ -65,7 +66,6 @@ export default class Home extends Component {
                 fetch(url+item.id)
                     .then(response => response.json())
                     .then(dane => {
-                        this.setState({eData: dane});
                         console.log(dane)
                         db.transaction((tx) => {
                             tx.executeSql(`INSERT INTO cwiczenia (id,name,description,level,exe) VALUES
@@ -77,7 +77,13 @@ export default class Home extends Component {
         ))
     };
 
-
+    goToScreen = (screenName) => {
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: screenName,
+            }
+        })
+    };
 
 
     openMenuDrawer = () => {
@@ -122,17 +128,13 @@ export default class Home extends Component {
                         }}
                         backgroundColor='#414867'
                     />
+                    <Image style={{width: width, height: 160,marginTop: 20}}
+                           source={require('./images/B01.png')}/>
                         <ScrollView>
                             {
-                                this.state.wynik.map((item, k) => (
-                                    <TouchableOpacity key={k} style={styles.title}>
-                                        <View style={{margin: 3}}>
-                                            <Text>{item.id}</Text>
-                                            <Text>{item.name}</Text>
-                                            <Text>{item.description}</Text>
-                                            <Text>{item.level}</Text>
-                                            <Text>{item.numberOfExercises}</Text>
-                                        </View>
+                                menu.map((item,k)=>(
+                                    <TouchableOpacity key={k} style={styles.buttons} onPress={()=>this.goToScreen(item.id)}>
+                                        <Text>{item.name}</Text>
                                     </TouchableOpacity>
                                 ))
                             }
@@ -162,6 +164,21 @@ const styles = StyleSheet.create({
     linearGradient: {
         flex: 1,
     },
+    buttons: {
+        width: width,
+        height: 50,
+        marginTop: 20,
+        borderWidth: 0.5,
+        borderRadius: 30,
+        borderColor: '#000000',
+        backgroundColor: '#366d47',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    textColor: {
+        color: '#FFFFFF',
+    }
 
 
 
