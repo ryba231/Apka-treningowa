@@ -7,12 +7,13 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text,TouchableOpacity,TextInput,Picker,PushController, View} from 'react-native';
+import {Platform, StyleSheet, Text,Picker,AppState, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
-import * as AppState from "react-native";
+import PushController from "./script/PushController";
 import * as PushNotification from "react-native-push-notification";
+
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -26,13 +27,13 @@ export default class App extends Component<Props> {
     constructor(props) {
         super(props);
 
-       // this.handleAppStateChange = this.handleAppStateChange.bind(this);
+        this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.state = {
             seconds: 5,
         };
     }
 
-    /*componentDidMount() {
+    componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
     }
 
@@ -43,17 +44,15 @@ export default class App extends Component<Props> {
     handleAppStateChange(appState) {
         if (appState === 'background') {
             let date = new Date(Date.now() + (this.state.seconds * 1000));
-
             if (Platform.OS === 'ios') {
                 date = date.toISOString();
             }
-
             PushNotification.localNotificationSchedule({
-                message: "My Notification Message",
+                message: "Dziś dzień treningu !",
                 date,
             });
         }
-    }*/
+    }
     render() {
         let datesWhitelist = [{
             start: moment(),
@@ -85,7 +84,7 @@ export default class App extends Component<Props> {
                             <Picker.Item label="10" value={10} />
                             <Picker.Item label="15" value={15} />
                         </Picker>
-
+                    <PushController />
                     </View>
                 </LinearGradient>
 
