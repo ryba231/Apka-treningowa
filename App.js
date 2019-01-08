@@ -7,10 +7,12 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text,TouchableOpacity,TextInput,Picker,PushController, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
+import * as AppState from "react-native";
+import * as PushNotification from "react-native-push-notification";
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -21,6 +23,37 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+    constructor(props) {
+        super(props);
+
+       // this.handleAppStateChange = this.handleAppStateChange.bind(this);
+        this.state = {
+            seconds: 5,
+        };
+    }
+
+    /*componentDidMount() {
+        AppState.addEventListener('change', this.handleAppStateChange);
+    }
+
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
+    }
+
+    handleAppStateChange(appState) {
+        if (appState === 'background') {
+            let date = new Date(Date.now() + (this.state.seconds * 1000));
+
+            if (Platform.OS === 'ios') {
+                date = date.toISOString();
+            }
+
+            PushNotification.localNotificationSchedule({
+                message: "My Notification Message",
+                date,
+            });
+        }
+    }*/
     render() {
         let datesWhitelist = [{
             start: moment(),
@@ -40,9 +73,19 @@ export default class App extends Component<Props> {
                             datesBlacklist={datesBlacklist}
 
                         />
-                        <Text style={styles.welcome}>Welcome to React Native!</Text>
-                        <Text style={styles.instructions}>To get started, edit App.js</Text>
-                        <Text style={styles.instructions}>{instructions}</Text>
+                        <Text style={styles.welcome}>
+                            Choose your notification time in seconds.
+                        </Text>
+                        <Picker
+                            style={styles.picker}
+                            selectedValue={this.state.seconds}
+                            onValueChange={(seconds) => this.setState({ seconds })}
+                        >
+                            <Picker.Item label="5" value={5} />
+                            <Picker.Item label="10" value={10} />
+                            <Picker.Item label="15" value={15} />
+                        </Picker>
+
                     </View>
                 </LinearGradient>
 
@@ -71,6 +114,17 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
     },
+    buttons: {
+        height: 50,
+        marginTop: 20,
+        borderWidth: 0.5,
+        borderRadius: 30,
+        borderColor: '#000000',
+        backgroundColor: '#366d47',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
     buttonText: {
         fontSize: 18,
         fontFamily: 'Gill Sans',
@@ -79,4 +133,7 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         backgroundColor: 'transparent',
     },
+    textInput:{
+        backgroundColor:'#8186A9'
+    }
 });

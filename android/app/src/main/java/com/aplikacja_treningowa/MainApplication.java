@@ -2,6 +2,7 @@ package com.aplikacja_treningowa;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
@@ -40,6 +41,7 @@ public class MainApplication extends NavigationApplication implements ReactAppli
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
+            new ReactNativePushNotificationPackage(),
                 new VectorIconsPackage(),
                 new LinearGradientPackage(),
                 new SQLitePluginPackage()   // register SQLite Plugin here
