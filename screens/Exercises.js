@@ -117,6 +117,16 @@ export default class Exercises extends Component {
 
     render() {
         let count = this.state.exercisesTasks[this.numberEx].duration * 60000;
+        let picture = this.state.exercisesTasks[this.numberEx].nameImages;
+        let pictureDir = [];
+        switch (this.state.exercises.name) {
+            case 'Rozgrzewka':pictureDir = [require('./images/R01.png'),require(`./images/R02.png`),require(`./images/R03.png`)]; break;
+            case 'Mięśnie pleców':pictureDir = [require('./images/MP01.png'),require(`./images/MP02.png`),require(`./images/MP03.png`)]; break;
+            case 'Triceps':pictureDir = [require('./images/T01.png'),require(`./images/T02.png`),require(`./images/T03.png`)]; break;
+            case 'Klatka piersiowa':pictureDir = [require('./images/KP01.png'),require(`./images/KP02.png`),require(`./images/KP03.png`)]; break;
+            case 'Barki':pictureDir = [require('./images/B01.png'),require(`./images/B02.png`),require(`./images/B03.png`)]; break;
+        }
+
         return (
             <LinearGradient colors={['#414867', '#2b324f',]} style={styles.linearGradient}>
                 <View style={styles.container}>
@@ -142,9 +152,9 @@ export default class Exercises extends Component {
                         <Text>{this.state.exercises.name}</Text>
                         <Text>{this.state.exercisesTasks[this.numberEx].name}</Text>
                         <Text>{this.state.exercisesTasks[this.numberEx].description}</Text>
-                        <Text>{this.state.exercisesTasks[this.numberEx].duration}</Text>
-                        <Text>{this.state.exercisesTasks[this.numberEx].nameImages}</Text>
-                        <Text>{count}</Text>
+                        <Image style={{width: width, height: 160,marginHorizontal: 20}}
+                               source={pictureDir[this.numberEx]}/>
+
 
                         <TouchableOpacity style={styles.buttons} onPress={() => this.start()}>
                             {
