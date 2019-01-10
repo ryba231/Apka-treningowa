@@ -133,7 +133,7 @@ export default class Home extends Component {
                         backgroundColor='#414867'
                     />
                     <Text style={[styles.textOrbitron,{fontSize:40}]}>Aplikacja Treningowa</Text>
-                        <ScrollView>
+                        <ScrollView style={{marginTop:50}}>
                             {
                                 menu.map((item,k)=>(
                                     <TouchableOpacity key={k} style={styles.buttons} onPress={()=>this.goToScreen(item.id)}>

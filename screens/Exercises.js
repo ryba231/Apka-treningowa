@@ -156,7 +156,7 @@ export default class Exercises extends Component {
                     />
                     <View style={{alignItems: 'center', marginBottom: 20}}>
                         <Text style={styles.textOrbitron}>{this.state.exercises.name}</Text>
-                        <Image style={{width: width, height: 200, marginHorizontal: 20}}
+                        <Image style={{ marginHorizontal: 20}}
                                source={pictureDir[this.numberEx]}/>
                         <Text
                             style={[styles.textOrbitron, {fontSize: 20}]}>{this.state.exercisesTasks[this.numberEx].name}</Text>
