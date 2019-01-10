@@ -16,9 +16,13 @@ import {Navigation} from "react-native-navigation";
 let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '~www/Trening.db'});
 //const url = 'http://192.168.43.72:3000/';
 //const url = 'http://192.168.0.2:3000/';
+//const url = 'http://192.168.1.104:3000/';
 const url = 'http://192.168.0.5:3000/';
 
 const menu = [{"id":"SelectPages","name":"Ćwiczenia"}];
+
+
+
 
 const {width} = Dimensions.get('window');
 

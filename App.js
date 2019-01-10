@@ -7,47 +7,48 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text,Picker,AppState, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import SQLite from 'react-native-sqlite-storage';
+import PushController from "./script/PushController";
+import * as PushNotification from "react-native-push-notification";
 
 let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '1'});
 
-const instructions = Platform.select({
-    ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-    android:
-        'Double tap R on your keyboard to reload,\n' +
-        'Shake or press menu button for dev menu',
-});
 
 type Props = {};
 export default class App extends Component<Props> {
-    constructor(){
-        super();
-        this.exeDay='';
-        this.exeMonth='';
-        this.exeYear='';
-        this.state={
-            wynik:[],
-        }
-        db.transaction((tx)=>{
-            tx.executeSql('SELECT * FROM exeDate',[],(tx,results)=>{
-                console.log("Query completed");
-                var tab=[];
-                var len = results.rows.length;
-                for (let i =0; i<len;i++) {
-                    tab[i] = results.rows.item(i);
-                }
-                this.exeDay= tab.exeDay;
-                this.exeMonth=tab.exeMonth;
-                this.exeYear=tab.exeYear;
-                this.setState({wynik:tab});
+    constructor(props) {
+        super(props);
 
-            })
-        })
-}
+        this.handleAppStateChange = this.handleAppStateChange.bind(this);
+        this.state = {
+            seconds: 5,
+        };
+    }
+
+    componentDidMount() {
+        AppState.addEventListener('change', this.handleAppStateChange);
+    }
+
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
+    }
+
+    handleAppStateChange(appState) {
+        if (appState === 'background') {
+            let date = new Date(Date.now() + (this.state.seconds * 1000));
+            if (Platform.OS === 'ios') {
+                date = date.toISOString();
+            }
+            PushNotification.localNotificationSchedule({
+                message: "Dziś dzień treningu !",
+                date,
+            });
+        }
+    }
     render() {
         let exeData = this.exeDay+'-'+this.exeMonth+'-'+this.exeYear;
         let datesWhitelist = [{
@@ -68,20 +69,19 @@ export default class App extends Component<Props> {
                             datesBlacklist={datesBlacklist}
 
                         />
-                        <Text style={styles.welcome}>Welcome to React Native!</Text>
-                        <Text style={styles.instructions}>To get started, edit App.js</Text>
-                        <Text style={styles.instructions}>{instructions}</Text>
-
-                        {
-                            this.state.wynik.map((item,k)=>(
-                                <View key={k}>
-                                    <Text>{exeData}</Text>
-                                    <Text>{item.exeDay}</Text>
-                                    <Text>{item.exeMonth}</Text>
-                                    <Text>{item.exeYear}</Text>
-                                </View>
-                            ))
-                        }
+                        <Text style={styles.welcome}>
+                            Choose your notification time in seconds.
+                        </Text>
+                        <Picker
+                            style={styles.picker}
+                            selectedValue={this.state.seconds}
+                            onValueChange={(seconds) => this.setState({ seconds })}
+                        >
+                            <Picker.Item label="5" value={5} />
+                            <Picker.Item label="10" value={10} />
+                            <Picker.Item label="15" value={15} />
+                        </Picker>
+                    <PushController />
                     </View>
                 </LinearGradient>
 
@@ -110,6 +110,17 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
     },
+    buttons: {
+        height: 50,
+        marginTop: 20,
+        borderWidth: 0.5,
+        borderRadius: 30,
+        borderColor: '#000000',
+        backgroundColor: '#366d47',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
     buttonText: {
         fontSize: 18,
         fontFamily: 'Gill Sans',
@@ -118,4 +129,7 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         backgroundColor: 'transparent',
     },
+    textInput:{
+        backgroundColor:'#8186A9'
+    }
 });

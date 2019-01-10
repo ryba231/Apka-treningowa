@@ -2,6 +2,7 @@ package com.aplikacja_treningowa;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
@@ -12,11 +13,27 @@ import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 import org.pgsqlite.SQLitePluginPackage;
-
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication implements ReactApplication {
+
+    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+        @Override
+        public boolean getUseDeveloperSupport() {
+            return BuildConfig.DEBUG;
+        }
+
+        @Override
+        protected List<ReactPackage> getPackages() {
+
+            return Arrays.<ReactPackage>asList(
+                    new MainReactPackage(),
+                    new ReactNativePushNotificationPackage() // <---- Add the Package
+            );
+        }
+    };
 
     @Override
     public boolean isDebug() {
@@ -40,6 +57,7 @@ public class MainApplication extends NavigationApplication implements ReactAppli
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
+            new ReactNativePushNotificationPackage(),
                 new VectorIconsPackage(),
                 new LinearGradientPackage(),
                 new SQLitePluginPackage()   // register SQLite Plugin here
