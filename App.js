@@ -11,16 +11,12 @@ import {Platform, StyleSheet, Text,Picker,AppState, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
+import SQLite from 'react-native-sqlite-storage';
 import PushController from "./script/PushController";
 import * as PushNotification from "react-native-push-notification";
 
+let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '1'});
 
-const instructions = Platform.select({
-    ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-    android:
-        'Double tap R on your keyboard to reload,\n' +
-        'Shake or press menu button for dev menu',
-});
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -54,6 +50,7 @@ export default class App extends Component<Props> {
         }
     }
     render() {
+        let exeData = this.exeDay+'-'+this.exeMonth+'-'+this.exeYear;
         let datesWhitelist = [{
             start: moment(),
             end: moment().add(3, 'days')  // total 4 days enabled

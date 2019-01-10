@@ -21,22 +21,23 @@ export default class selectPages extends Component {
     constructor() {
         super();
         this.state = {
-            description:[],
+            description: [],
         };
-        db.transaction((tx)=>{
-            tx.executeSql('SELECT * FROM exercisesDetails',[],(tx,results)=>{
+        db.transaction((tx) => {
+            tx.executeSql('SELECT * FROM exercisesDetails', [], (tx, results) => {
                 console.log("Query completed");
-                var tab=[];
+                var tab = [];
                 var len = results.rows.length;
-                for (let i =0; i<len;i++) {
+                for (let i = 0; i < len; i++) {
                     tab[i] = results.rows.item(i);
                 }
-                this.setState({description:tab});
+                this.setState({description: tab});
 
             })
         })
     }
-    goToScreen = (screenName,id) => {
+
+    goToScreen = (screenName, id) => {
         Navigation.push(this.props.componentId, {
             component: {
                 name: screenName,
@@ -90,22 +91,24 @@ export default class selectPages extends Component {
                         }}
                         backgroundColor='#414867'
                     />
-                        <ScrollView>
-                            {
-                                this.state.description.map((item, k) => (
-                                    <TouchableOpacity key={k} style={styles.title} onPress={()=> this.goToScreen('Exercises',item.id)}>
-                                        <View style={{margin: 3}}>
-                                            <Text>{item.id}</Text>
-                                            <Text>{item.name}</Text>
-                                            <Text>{item.description}</Text>
-                                            <Text>{item.level}</Text>
-                                            <Text>{item.numberOfExercises}</Text>
+                    <ScrollView>
+                        {
+                            this.state.description.map((item, k) => (
+                                <TouchableOpacity key={k} style={styles.title}
+                                                  onPress={() => this.goToScreen('Exercises', item.id)}>
+                                    <LinearGradient colors={['#532F28', '#1a305f',]} style={styles.linearGradient}>
+                                        <View>
+                                            <Text style={[styles.buttonText,{fontSize:30}]}>{item.name}</Text>
+                                            <Text style={styles.buttonText}>{item.description}</Text>
+                                            <Text style={styles.buttonText}>Poziom trdności: {item.level}</Text>
+                                            <Text style={styles.buttonText}>Liczba ćwiczeń:{item.numberOfExercises}</Text>
                                         </View>
-                                    </TouchableOpacity>
-                                ))
-                            }
-                        </ScrollView>
-                    </View>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+                            ))
+                        }
+                    </ScrollView>
+                </View>
             </LinearGradient>
 
         );
@@ -123,10 +126,15 @@ const styles = StyleSheet.create({
     title: {
         marginHorizontal: 10,
         marginTop: 30,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
         borderWidth: 0.5,
         width: width - 20,
         borderColor: '#e5e5e5'
     },
+    buttonText: {
+        marginHorizontal:5,
+        textAlign: 'center',
+        fontFamily: 'Orbitron',
+        color: '#8186A9'
+    }
+
 });
