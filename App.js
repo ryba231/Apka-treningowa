@@ -25,7 +25,7 @@ export default class App extends Component<Props> {
 
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.state = {
-            seconds: 5,
+            days: 5,
         };
     }
 
@@ -39,7 +39,7 @@ export default class App extends Component<Props> {
 
     handleAppStateChange(appState) {
         if (appState === 'background') {
-            let date = new Date(Date.now() + (this.state.seconds * 1000));
+            let date = new Date(Date.now() + (this.state.days * 86400000));
             if (Platform.OS === 'ios') {
                 date = date.toISOString();
             }
@@ -70,16 +70,16 @@ export default class App extends Component<Props> {
 
                         />
                         <Text style={styles.welcome}>
-                            Choose your notification time in seconds.
+                            Przypomnienie o treningu :
                         </Text>
                         <Picker
                             style={styles.picker}
-                            selectedValue={this.state.seconds}
-                            onValueChange={(seconds) => this.setState({ seconds })}
+                            selectedValue={this.state.days}
+                            onValueChange={(days) => this.setState({ days })}
                         >
-                            <Picker.Item label="5" value={5} />
-                            <Picker.Item label="10" value={10} />
-                            <Picker.Item label="15" value={15} />
+                            <Picker.Item label="Jutro" value={1} />
+                            <Picker.Item label="Pojutrze" value={2} />
+                            <Picker.Item label="Za dwa dni " value={3} />
                         </Picker>
                     <PushController />
                     </View>
