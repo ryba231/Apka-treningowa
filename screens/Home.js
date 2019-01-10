@@ -137,7 +137,8 @@ export default class Home extends Component {
                                     </TouchableOpacity>
                                 ))
                             }
-                            <TouchableOpacity style={styles.buttons} onPress={()=>Alert.alert('Aplikacja treningowa','Wersja : 0.7 \nAutorzy:\nPiesek LEszek\nMenel MAriusz\n i JA cały na biało Pan Ryba')}>
+                            <TouchableOpacity style={styles.buttons} onPress={()=>Alert.alert('Aplikacja treningowa',
+                                'Wersja : 0.7 \nAutorzy:\nAchwat Mariusz\nPolek Leszek\nRyba Marek')}>
                                 <Text style={[styles.textOrbitron,{fontSize:20}]}>Info</Text>
                             </TouchableOpacity>
 

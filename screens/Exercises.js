@@ -82,7 +82,7 @@ export default class Exercises extends Component {
     }
 
     start() {
-        let count = this.state.exercisesTasks[this.numberEx].duration * 60000;
+        let count = this.state.exercisesTasks[this.numberEx].duration * 6000;
         if (this.state.isStart) {
             setTimeout(() => {
                 this.next()
@@ -162,8 +162,7 @@ export default class Exercises extends Component {
                             style={[styles.textOrbitron, {fontSize: 20}]}>{this.state.exercisesTasks[this.numberEx].name}</Text>
                         <Text
                             style={[styles.textOrbitron, {fontSize: 14}]}>{this.state.exercisesTasks[this.numberEx].description}</Text>
-                        <Text style={[styles.textOrbitron, {fontSize: 14}]}>Ćwiczenie {this.numberEx + 1} z
-                            3{width}</Text>
+                        <Text style={[styles.textOrbitron, {fontSize: 14}]}>Ćwiczenie {this.numberEx + 1} z 3</Text>
 
 
                         <TouchableOpacity style={[styles.buttons, {width: width}]} onPress={() => this.start()}>
