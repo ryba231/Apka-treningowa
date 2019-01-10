@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import {Platform, StyleSheet, Text, View, Image, Dimensions, ScrollView, TouchableOpacity,Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SQLite from 'react-native-sqlite-storage';
 import {Header} from "react-native-elements";
@@ -15,10 +15,10 @@ import {Navigation} from "react-native-navigation";
 
 let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '~www/Trening.db'});
 //const url = 'http://192.168.43.72:3000/';
-const url = 'http://192.168.0.2:3000/';
+//const url = 'http://192.168.0.2:3000/';
+const url = 'http://192.168.0.5:3000/';
 
-const menu = [{"id":"SelectPages","name":"Ćwiczenia"},{"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},
-    {"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},{"id":"","name":"coś tam będzie"},];
+const menu = [{"id":"SelectPages","name":"Ćwiczenia"}];
 
 const {width} = Dimensions.get('window');
 
@@ -128,16 +128,18 @@ export default class Home extends Component {
                         }}
                         backgroundColor='#414867'
                     />
-                    <Image style={{width: width, height: 160,marginTop: 20}}
-                           source={require('./images/B01.png')}/>
+                    <Text style={[styles.textOrbitron,{fontSize:40}]}>Aplikacja Treningowa</Text>
                         <ScrollView>
                             {
                                 menu.map((item,k)=>(
                                     <TouchableOpacity key={k} style={styles.buttons} onPress={()=>this.goToScreen(item.id)}>
-                                        <Text>{item.name}</Text>
+                                        <Text style={[styles.textOrbitron,{fontSize:20}]}>{item.name}</Text>
                                     </TouchableOpacity>
                                 ))
                             }
+                            <TouchableOpacity style={styles.buttons} onPress={()=>Alert.alert('Aplikacja treningowa','Wersja : 0.7 \nAutorzy:\nPiesek LEszek\nMenel MAriusz\n i JA cały na biało Pan Ryba')}>
+                                <Text style={[styles.textOrbitron,{fontSize:20}]}>Info</Text>
+                            </TouchableOpacity>
 
                         </ScrollView>
 
@@ -171,13 +173,18 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderRadius: 30,
         borderColor: '#000000',
-        backgroundColor: '#366d47',
+        backgroundColor: '#896d0d',
         justifyContent: 'center',
         alignItems: 'center',
 
     },
     textColor: {
         color: '#FFFFFF',
+    },
+    textOrbitron:{
+        textAlign: 'center',
+        fontFamily:'Orbitron',
+        color:'#8186A9'
     }
 
 

@@ -16,7 +16,6 @@ import {Navigation} from "react-native-navigation";
 let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '~www/Trening.db'});
 
 const {width} = Dimensions.get('window');
-const id = 'c05d1';
 
 
 export default class Exercises extends Component {
@@ -87,7 +86,7 @@ export default class Exercises extends Component {
         if (this.state.isStart) {
             setTimeout(() => {
                 this.next()
-            }, 5000);
+            }, count);
         }
         this.setState({
             isStart: !this.state.isStart
@@ -116,15 +115,23 @@ export default class Exercises extends Component {
     };
 
     render() {
-        let count = this.state.exercisesTasks[this.numberEx].duration * 60000;
-        let picture = this.state.exercisesTasks[this.numberEx].nameImages;
         let pictureDir = [];
         switch (this.state.exercises.name) {
-            case 'Rozgrzewka':pictureDir = [require('./images/R01.png'),require(`./images/R02.png`),require(`./images/R03.png`)]; break;
-            case 'Mięśnie pleców':pictureDir = [require('./images/MP01.png'),require(`./images/MP02.png`),require(`./images/MP03.png`)]; break;
-            case 'Triceps':pictureDir = [require('./images/T01.png'),require(`./images/T02.png`),require(`./images/T03.png`)]; break;
-            case 'Klatka piersiowa':pictureDir = [require('./images/KP01.png'),require(`./images/KP02.png`),require(`./images/KP03.png`)]; break;
-            case 'Barki':pictureDir = [require('./images/B01.png'),require(`./images/B02.png`),require(`./images/B03.png`)]; break;
+            case 'Rozgrzewka':
+                pictureDir = [require('./images/R01.png'), require(`./images/R02.png`), require(`./images/R03.png`)];
+                break;
+            case 'Mięśnie pleców':
+                pictureDir = [require('./images/MP01.png'), require(`./images/MP02.png`), require(`./images/MP03.png`)];
+                break;
+            case 'Triceps':
+                pictureDir = [require('./images/T01.png'), require(`./images/T02.png`), require(`./images/T03.png`)];
+                break;
+            case 'Klatka piersiowa':
+                pictureDir = [require('./images/KP01.png'), require(`./images/KP02.png`), require(`./images/KP03.png`)];
+                break;
+            case 'Barki':
+                pictureDir = [require('./images/B01.png'), require(`./images/B02.png`), require(`./images/B03.png`)];
+                break;
         }
 
         return (
@@ -148,26 +155,31 @@ export default class Exercises extends Component {
                         backgroundColor='#414867'
                     />
                     <View style={{alignItems: 'center', marginBottom: 20}}>
-                        <Text>{this.numberEx}</Text>
-                        <Text>{this.state.exercises.name}</Text>
-                        <Text>{this.state.exercisesTasks[this.numberEx].name}</Text>
-                        <Text>{this.state.exercisesTasks[this.numberEx].description}</Text>
-                        <Image style={{width: width, height: 160,marginHorizontal: 20}}
+                        <Text style={styles.textOrbitron}>{this.state.exercises.name}</Text>
+                        <Image style={{width: width, height: 200, marginHorizontal: 20}}
                                source={pictureDir[this.numberEx]}/>
+                        <Text
+                            style={[styles.textOrbitron, {fontSize: 20}]}>{this.state.exercisesTasks[this.numberEx].name}</Text>
+                        <Text
+                            style={[styles.textOrbitron, {fontSize: 14}]}>{this.state.exercisesTasks[this.numberEx].description}</Text>
+                        <Text style={[styles.textOrbitron, {fontSize: 14}]}>Ćwiczenie {this.numberEx + 1} z
+                            3{width}</Text>
 
 
-                        <TouchableOpacity style={styles.buttons} onPress={() => this.start()}>
+                        <TouchableOpacity style={[styles.buttons, {width: width}]} onPress={() => this.start()}>
                             {
-                                this.state.isStart ? <Text>Start</Text> : <Text>Stop</Text>
+                                this.state.isStart ? <Text style={styles.textOrbitron}>Start</Text> :
+                                    <Text style={styles.textOrbitron}>Stop</Text>
                             }
                         </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.buttons} onPress={() => this.next()}>
-                            <Text>Next</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttons} onPress={() => this.prev()}>
-                            <Text>Prev</Text>
-                        </TouchableOpacity>
+                        <View style={{flexDirection: 'row', flexWrap: 'wrap',}}>
+                            <TouchableOpacity style={styles.buttons} onPress={() => this.prev()}>
+                                <Text style={styles.textOrbitron}>Prev</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttons} onPress={() => this.next()}>
+                                <Text style={styles.textOrbitron}>Next</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                 </View>
@@ -195,15 +207,21 @@ const styles = StyleSheet.create({
         borderColor: '#e5e5e5'
     },
     buttons: {
-        width: width,
+        width: 180,
         height: 50,
         marginTop: 20,
         borderWidth: 0.5,
         borderRadius: 30,
         borderColor: '#000000',
-        backgroundColor: '#366d47',
+        backgroundColor: '#896d0d',
         justifyContent: 'center',
         alignItems: 'center',
 
     },
+    textOrbitron: {
+        textAlign: 'center',
+        fontFamily: 'Orbitron',
+        color: '#8186A9',
+        fontSize: 30,
+    }
 });

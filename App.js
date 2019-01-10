@@ -11,6 +11,9 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
+import SQLite from 'react-native-sqlite-storage';
+
+let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '1'});
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -21,7 +24,32 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+    constructor(){
+        super();
+        this.exeDay='';
+        this.exeMonth='';
+        this.exeYear='';
+        this.state={
+            wynik:[],
+        }
+        db.transaction((tx)=>{
+            tx.executeSql('SELECT * FROM exeDate',[],(tx,results)=>{
+                console.log("Query completed");
+                var tab=[];
+                var len = results.rows.length;
+                for (let i =0; i<len;i++) {
+                    tab[i] = results.rows.item(i);
+                }
+                this.exeDay= tab.exeDay;
+                this.exeMonth=tab.exeMonth;
+                this.exeYear=tab.exeYear;
+                this.setState({wynik:tab});
+
+            })
+        })
+}
     render() {
+        let exeData = this.exeDay+'-'+this.exeMonth+'-'+this.exeYear;
         let datesWhitelist = [{
             start: moment(),
             end: moment().add(3, 'days')  // total 4 days enabled
@@ -43,6 +71,17 @@ export default class App extends Component<Props> {
                         <Text style={styles.welcome}>Welcome to React Native!</Text>
                         <Text style={styles.instructions}>To get started, edit App.js</Text>
                         <Text style={styles.instructions}>{instructions}</Text>
+
+                        {
+                            this.state.wynik.map((item,k)=>(
+                                <View key={k}>
+                                    <Text>{exeData}</Text>
+                                    <Text>{item.exeDay}</Text>
+                                    <Text>{item.exeMonth}</Text>
+                                    <Text>{item.exeYear}</Text>
+                                </View>
+                            ))
+                        }
                     </View>
                 </LinearGradient>
 
