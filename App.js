@@ -79,7 +79,7 @@ export default class App extends Component<Props> {
                         >
                             <Picker.Item label="Jutro" value={1} />
                             <Picker.Item label="Pojutrze" value={2} />
-                            <Picker.Item label="Za dwa dni " value={3} />
+                            <Picker.Item label="Za trzy dni " value={3} />
                         </Picker>
                     <PushController />
                     </View>
