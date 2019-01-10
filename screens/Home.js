@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
+import {Platform, StyleSheet, Text, View, Image, Dimensions, ScrollView, TouchableOpacity,Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SQLite from 'react-native-sqlite-storage';
 import {Header} from "react-native-elements";
@@ -15,7 +15,14 @@ import {Navigation} from "react-native-navigation";
 
 let db = SQLite.openDatabase({name: 'Trening.db', createFromLocation: '~www/Trening.db'});
 //const url = 'http://192.168.43.72:3000/';
-const url = 'http://192.168.1.104:3000/';
+//const url = 'http://192.168.0.2:3000/';
+//const url = 'http://192.168.1.104:3000/';
+const url = 'http://192.168.0.5:3000/';
+
+const menu = [{"id":"SelectPages","name":"Ćwiczenia"}];
+
+
+
 
 const {width} = Dimensions.get('window');
 
@@ -24,8 +31,6 @@ export default class Home extends Component {
         super()
         this.state = {
             wynik: [],
-            eData: [],
-            descriptions: [],
         }
 
 
@@ -65,7 +70,6 @@ export default class Home extends Component {
                 fetch(url+item.id)
                     .then(response => response.json())
                     .then(dane => {
-                        this.setState({eData: dane});
                         console.log(dane)
                         db.transaction((tx) => {
                             tx.executeSql(`INSERT INTO cwiczenia (id,name,description,level,exe) VALUES
@@ -77,7 +81,13 @@ export default class Home extends Component {
         ))
     };
 
-
+    goToScreen = (screenName) => {
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: screenName,
+            }
+        })
+    };
 
 
     openMenuDrawer = () => {
@@ -122,20 +132,19 @@ export default class Home extends Component {
                         }}
                         backgroundColor='#414867'
                     />
+                    <Text style={[styles.textOrbitron,{fontSize:40}]}>Aplikacja Treningowa</Text>
                         <ScrollView>
                             {
-                                this.state.wynik.map((item, k) => (
-                                    <TouchableOpacity key={k} style={styles.title}>
-                                        <View style={{margin: 3}}>
-                                            <Text>{item.id}</Text>
-                                            <Text>{item.name}</Text>
-                                            <Text>{item.description}</Text>
-                                            <Text>{item.level}</Text>
-                                            <Text>{item.numberOfExercises}</Text>
-                                        </View>
+                                menu.map((item,k)=>(
+                                    <TouchableOpacity key={k} style={styles.buttons} onPress={()=>this.goToScreen(item.id)}>
+                                        <Text style={[styles.textOrbitron,{fontSize:20}]}>{item.name}</Text>
                                     </TouchableOpacity>
                                 ))
                             }
+                            <TouchableOpacity style={styles.buttons} onPress={()=>Alert.alert('Aplikacja treningowa',
+                                'Wersja : 0.7 \nAutorzy:\nAchwat Mariusz\nPolek Leszek\nRyba Marek')}>
+                                <Text style={[styles.textOrbitron,{fontSize:20}]}>Info</Text>
+                            </TouchableOpacity>
 
                         </ScrollView>
 
@@ -162,6 +171,26 @@ const styles = StyleSheet.create({
     linearGradient: {
         flex: 1,
     },
+    buttons: {
+        width: width,
+        height: 50,
+        marginTop: 20,
+        borderWidth: 0.5,
+        borderRadius: 30,
+        borderColor: '#000000',
+        backgroundColor: '#896d0d',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    textColor: {
+        color: '#FFFFFF',
+    },
+    textOrbitron:{
+        textAlign: 'center',
+        fontFamily:'Orbitron',
+        color:'#8186A9'
+    }
 
 
 
